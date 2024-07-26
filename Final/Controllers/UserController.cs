@@ -91,13 +91,11 @@ namespace Final.Controllers
             return Ok(_package.get_all_user());
 
         }
-        [HttpGet("get_answers_by_full_name")]
-        public IActionResult get_answers_by_full_name(int id)
+        [HttpGet("get_answers_by_id")]
+        public IActionResult get_answers_by_id(int id)
         {
            
-
-
-            return Ok(_package.get_answers_by_full_name(id));
+            return Ok(_package.get_answers_by_id(id));
 
         }
 
@@ -121,13 +119,13 @@ namespace Final.Controllers
 
         }
         [HttpPut("update_questions")]
-        public async Task<IActionResult> update_questions(int id,addQuestion newQuestion)
+        public async Task<IActionResult> update_questions(getQuestion updatedQuestion)
         {
 
             try
             {
 
-                _package.update_questions(id, newQuestion);
+                _package.update_questions(updatedQuestion);
 
                 return Ok();
             }
@@ -159,6 +157,13 @@ namespace Final.Controllers
         {
 
             return Ok(_package.get_questions());
+
+        }
+        [HttpPost("add_question_ret_list")]
+        public IActionResult add_question_ret_list(addQuestion newQuestion)
+        {
+
+            return Ok(_package.add_question_ret_list(newQuestion));
 
         }
 

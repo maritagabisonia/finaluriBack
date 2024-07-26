@@ -11,15 +11,17 @@ namespace Final.Packages
         public void register_user(RegisterUser user);
         public LogInResponse Login_user(LogIn user);
         public GetUser get_user_by_id(int id);
-        public  List<string>  get_all_user();
+        public  List<FullNameUser>  get_all_user();
 
-        public List<UserAnswer> get_answers_by_full_name(int id);
+        public List<UserAnswer> get_answers_by_id(int id);
 
         public void add_question(addQuestion newQuestion);
-        public void update_questions(int id,addQuestion newQuestion);
+        public void update_questions(getQuestion updatedQuestion);
 
         public void parse_json_answers(List<userForm> userForm);
-        public List<addQuestion> get_questions();
+        public List<getQuestion> get_questions();
+        public List<getQuestion> add_question_ret_list(addQuestion newQuestion);
+
 
 
     }
@@ -125,10 +127,10 @@ namespace Final.Packages
 
         }
 
-        public List<string> get_all_user()
+        public List<FullNameUser> get_all_user()
         {
             OracleConnection conn = new OracleConnection(Connstr);
-            List<string> listOfUsers = new List<string>(); 
+            List<FullNameUser> listOfUsers = new List<FullNameUser>(); 
 
             conn.Open();
             OracleCommand cmd = conn.CreateCommand();
@@ -142,17 +144,17 @@ namespace Final.Packages
 
             while (reader.Read())
             {
-                string userName;
-                userName = reader["fullname"].ToString();
-                listOfUsers.Add(userName);
+                FullNameUser user = new FullNameUser();
 
-              
-
+                user.Id = int.Parse(reader["id"].ToString());
+                user.FullName = reader["fullname"].ToString();
+                
+                listOfUsers.Add(user);
 
             }
             return listOfUsers;
         }
-        public List<UserAnswer> get_answers_by_full_name(int id)
+        public List<UserAnswer> get_answers_by_id(int id)
         {
 
             OracleConnection conn = new OracleConnection(Connstr);
@@ -174,6 +176,7 @@ namespace Final.Packages
             while (reader.Read())
             {
                 UserAnswer userAnswer = new UserAnswer();
+
                 userAnswer.Answer = reader["answer"].ToString();
                 userAnswer.Question = reader["question"].ToString();
 
@@ -210,7 +213,7 @@ namespace Final.Packages
             conn.Close();
 
         }
-        public void update_questions(int id, addQuestion newQuestion)
+        public void update_questions(getQuestion updatedQuestion)
         {
             OracleConnection conn = new OracleConnection();
             conn.ConnectionString = Connstr;
@@ -223,11 +226,10 @@ namespace Final.Packages
             cmd.CommandType = CommandType.StoredProcedure;
 
 
-            cmd.Parameters.Add("p_id", OracleDbType.Int32).Value = id;
-
-            cmd.Parameters.Add("p_answer", OracleDbType.Varchar2).Value = newQuestion.Answer;
-            cmd.Parameters.Add("p_question", OracleDbType.Varchar2).Value = newQuestion.Question;
-            cmd.Parameters.Add("p_important", OracleDbType.Int32).Value = newQuestion.Important;
+            cmd.Parameters.Add("p_id", OracleDbType.Int32).Value = updatedQuestion.Id;
+            cmd.Parameters.Add("p_question", OracleDbType.Varchar2).Value = updatedQuestion.Question;
+            cmd.Parameters.Add("p_answer", OracleDbType.Varchar2).Value = updatedQuestion.Answer;
+            cmd.Parameters.Add("p_important", OracleDbType.Int32).Value = updatedQuestion.Important;
 
 
             cmd.ExecuteNonQuery();
@@ -257,10 +259,10 @@ namespace Final.Packages
                 conn.Close();
             
         }
-        public List<addQuestion> get_questions()
+        public List<getQuestion> get_questions()
         {
             OracleConnection conn = new OracleConnection(Connstr);
-            List<addQuestion> listOfQuestions = new List<addQuestion>();
+            List<getQuestion> listOfQuestions = new List<getQuestion>();
 
             conn.Open();
             OracleCommand cmd = conn.CreateCommand();
@@ -274,10 +276,11 @@ namespace Final.Packages
 
             while (reader.Read())
             {
-                addQuestion question = new addQuestion();
+                getQuestion question = new getQuestion();
+
+                question.Id = int.Parse(reader["id"].ToString());
                 question.Question = reader["question"].ToString();
                 question.Answer = reader["answer"].ToString();
-
                 question.Important = reader["important"].ToString() == "1" ;
 
 
@@ -289,7 +292,43 @@ namespace Final.Packages
             }
             return listOfQuestions;
         }
+        public List<getQuestion> add_question_ret_list(addQuestion newQuestion)
+        {
+            OracleConnection conn = new OracleConnection();
+            List<getQuestion> listOfQuestions = new List<getQuestion>();
 
+            conn.ConnectionString = Connstr;
+
+            conn.Open();
+
+            OracleCommand cmd = conn.CreateCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "olerning.pkg_marita_qustions.add_question_ret_list";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+
+            cmd.Parameters.Add("p_question", OracleDbType.Varchar2).Value = newQuestion.Question;
+            cmd.Parameters.Add("p_answer", OracleDbType.Varchar2).Value = newQuestion.Answer;
+            cmd.Parameters.Add("p_important", OracleDbType.Int32).Value = newQuestion.Important;
+
+            cmd.Parameters.Add("question_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+            OracleDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                getQuestion question = new getQuestion();
+                question.Id = int.Parse(reader["id"].ToString());
+                question.Question = reader["question"].ToString();
+                question.Answer = reader["answer"].ToString();
+                question.Important = reader["important"].ToString() == "1";
+
+
+                listOfQuestions.Add(question);
+
+            }
+            return listOfQuestions;
+        }
 
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
