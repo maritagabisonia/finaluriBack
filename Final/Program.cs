@@ -41,6 +41,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddScoped<IPKG_USERS, PKG_USER>();
+builder.Services.AddScoped<IPKG_SUBJECTS, PKG_SUBJECTS>();
+builder.Services.AddScoped<IPKG_QUESTIONS, PKG_QUESTIONS>();
+
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 

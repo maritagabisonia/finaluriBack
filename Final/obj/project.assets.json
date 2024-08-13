@@ -2241,11 +2241,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marita.gabisonia\\Desktop\\final\\Final\\Final.csproj",
+      "projectUniqueName": "C:\\Users\\marita.gabisonia\\Desktop\\FinalBack\\Final\\Final.csproj",
       "projectName": "Final",
-      "projectPath": "C:\\Users\\marita.gabisonia\\Desktop\\final\\Final\\Final.csproj",
+      "projectPath": "C:\\Users\\marita.gabisonia\\Desktop\\FinalBack\\Final\\Final.csproj",
       "packagesPath": "C:\\Users\\marita.gabisonia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marita.gabisonia\\Desktop\\final\\Final\\obj\\",
+      "outputPath": "C:\\Users\\marita.gabisonia\\Desktop\\FinalBack\\Final\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\marita.gabisonia\\AppData\\Roaming\\NuGet\\NuGet.Config",

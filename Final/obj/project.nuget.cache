@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "N+W9HPzgo5tV87Bwpoqsq3t6l3qqtmIpVSRL0xTuBZvjT6qBQqLPZ9p5r3Q4taNx/XTNFYk5DLMKtkXL/NNqtA==",
+  "dgSpecHash": "tZpTSHWBH+ZHMRd3asEC7m0rqp11JxP0nBg8GpHp/D6nhht+uY5TQ280bvuH5E+bXUjDGG0tSKFoFSlkMGjoMA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\marita.gabisonia\\Desktop\\final\\Final\\Final.csproj",
+  "projectFilePath": "C:\\Users\\marita.gabisonia\\Desktop\\FinalBack\\Final\\Final.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\marita.gabisonia\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.20\\microsoft.aspnetcore.authentication.jwtbearer.7.0.20.nupkg.sha512",
     "C:\\Users\\marita.gabisonia\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.3\\microsoft.aspnetcore.openapi.7.0.3.nupkg.sha512",

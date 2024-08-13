@@ -24,6 +24,59 @@ namespace Final.Controllers
             _tokenService = tokenService;
    
         }
+        [HttpPost("update_question")]
+        public async Task<IActionResult> update_question(int id, List<questionJSONmodel> question)
+        {
+
+            try
+            {
+                _package.update_question(id, question);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+
+
+        }
+        [HttpGet("read_questions")]
+        public IActionResult read_questions(int subjectID)
+        {
+
+            return Ok(_package.read_questions(subjectID));
+
+        }
+        [HttpPost("parse_json_question")]
+        public async Task<IActionResult> parse_json_question(List<questionJSONmodel> question)
+        {
+            try
+            {
+
+              
+                return Ok(_package.parse_json_question(question));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpGet("get_user_by_token"), Authorize]
+        public IActionResult get_user_by_token()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+            var id = int.Parse(userIdClaim);
+
+
+            return Ok(_package.get_user_by_id(id));
+
+        }
 
 
 
